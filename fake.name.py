@@ -1,12 +1,10 @@
-import file_operations
+import random
 
 from faker import Faker
 
-import random
-
+import file_operations
 
 fake = Faker("ru_RU")
-
 
 letters_mapping = {
     'а': 'а͠', 'б': 'б̋', 'в': 'в͒͠',
@@ -34,40 +32,48 @@ letters_mapping = {
     ' ': ' '
 }
 
-skills = ["Стремительный прыжок", "Электрический выстрел",
-          "Ледяной удар", "Стремительный удар", "Кислотный взгляд",
-          "Тайный побег", "Ледяной выстрел", "Огненный заряд"]
+skills = [
+    "Стремительный прыжок",
+    "Электрический выстрел",
+    "Ледяной удар",
+    "Стремительный удар",
+    "Кислотный взгляд",
+    "Тайный побег",
+    "Ледяной выстрел",
+    "Огненный заряд"
+]
 
 def main():
-    
     rep_skills = []
 
     for skill in skills:
-        rep_skill = ""
+        rep_skill = ''
         for char in skill:
             rep_skill += letters_mapping.get(char)
         rep_skills.append(rep_skill)
 
     for i in range(1, 11):
-        random_skills = random.sample(rep_skills, 3)
+    random_skills = random.sample(rep_skills, 3)
 
-        context = {
-            "first_name": fake.first_name_male(),
-            "last_name": fake.last_name_male(),
-            "job": fake.job(),
-            "town": fake.city(),
-            "strength": random.randint(3, 18),
-            "agility": random.randint(3, 18),
-            "endurance": random.randint(3, 18),
-            "intelligence": random.randint(3, 18),
-            "luck": random.randint(3, 18),
-            "skill_1": random_skills[0],
-            "skill_2": random_skills[1],
-            "skill_3": random_skills[2],
-        }
+    context = {
+        "first_name": fake.first_name_male(),
+        "last_name": fake.last_name_male(),
+        "job": fake.job(),
+        "town": fake.city(),
+        "strength": random.randint(3, 18),
+        "agility": random.randint(3, 18),
+        "endurance": random.randint(3, 18),
+        "intelligence": random.randint(3, 18),
+        "luck": random.randint(3, 18),
+        "skill_1": random_skills[0],
+        "skill_2": random_skills[1],
+        "skill_3": random_skills[2],
+    }
 
-        file_operations.render_template("template.svg", f"cards/result_{i}.svg", context)
-
+    os.makedirs("cards", exist_ok=True)
+    file_operations.render_template(
+        "template.svg", f"cards/result_{i}.svg", context
+    )
 
 if __name__ == '__main__':
     main()
